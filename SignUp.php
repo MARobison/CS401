@@ -52,12 +52,10 @@ $(document).on('click', "#signUpConfirm", function(){
   var user = $("input[type='text', name='username']");
   var email = $("input[type='text', name='email']");
   var password = $("input[type='text', name='password']");
-  if(!user.empty() && !email.empty() && !password.empty()){
     "<?php
-    $dao = new Dao();
-    echo $dao->InsertIntoDB();
+    $dao->InsertIntoDB();
+    echo $dao->GetErrorMessage();
     ?>"
-}
 });
 
 $(document).on('click', "#cancel", function(){

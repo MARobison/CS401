@@ -13,21 +13,6 @@ class DAO {
   var $userPassword;
   var $email;
 
-//   public function getConnection () {
-//     try {
-// 			$conn = new PDO("mysql:host=$this->host;dbname=$this->db", $this->user, $this->password);
-// 			// set the PDO error mode to exception
-// 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-// 			echo "Connected successfully";
-// 			return $conn;
-// 		}
-// 		catch(PDOException $e)
-// 		{
-// 			echo "Connection failed: " . $e->getMessage();
-// 		}
-// 		throw new Exception("user not found");
-// }
-
 //Check to see if login information is empty
 //Check to see if user actually has access
 function login(){
@@ -42,13 +27,14 @@ function login(){
   }
   $username = trim($_POST['username']);
   $userPassword = trim($_POST['password']);
-  if(!isset($_SESSION)){ session_start(); }
+  if(!isset($_SESSION)){
+    session_start();
+  }
   if(!$this->CheckLoginInDB($username,$userPassword))
   {
-    echo "User not found";
-      return false;
+    $this->errorHandler("User not found");
+    return false;
   }
-  echo "Logged in";
   return true;
   }
 
@@ -72,14 +58,10 @@ function login(){
       $this->errorHandler("Email is empty!");
       return false;
     }
-    if($this->checkExistingUser() == false){
-      $this->errorHandler("Username is already taken");
-      return false;
-    }
     $username = $_POST['username'];
     $email = $_POST['email'];
     $userPassword = $_POST['password'];
-    if($this->AccessDatabase() == true && $this->checkExistingUser() == true){
+    if($this->AccessDatabase() == true && $this->checkExistingUser($username) == true){
       $insert_query = 'INSERT INTO ' . 'user' .'(
               username,
               email,
@@ -95,23 +77,21 @@ function login(){
               )';
         mysqli_query($this->connection, $insert_query);
   }
-      else if(!mysqli_query($this->connection, $insert_query))
+      else
       {
-          $this->errorHandler("Error inserting data to the table");
           return false;
       }
-       return 1;
+       return true;
   }
 
-function checkExistingUser(){
+function checkExistingUser($username){
   $query = "SELECT username FROM user WHERE username='" . $username ."'";
-  $result = mysqli_query($this->connection, $insert_query);
+  $result = mysqli_query($this->connection, $query);
   if($result && mysqli_num_rows($result) > 0){
-    // $this->errorHandler("Username already exists");
-    echo "User exists";
-    return "User exists";
+     $this->errorHandler("Username already exists");
+    return false;
   }
-  return "User does not exist";
+  return true;
 }
 //Connect to database
   function AccessDatabase(){
@@ -119,15 +99,15 @@ function checkExistingUser(){
 
     if(!$this->connection)
     {
-        $this->errorHandler("Database Login failed! Please make sure that the DB login credentials provided are correct");
+        $this->errorHandler("Database Login failed");
         return false;
     }
     if(!mysqli_select_db($this->connection, $this->db))
     {
-        $this->errorHandler('Failed to select database: '.$this->db.' Please make sure that the database name provided is correct');
+        $this->errorHandler("Failed to select database");
         return false;
     }
-    return "access";
+    return true;
   }
 
 //Make sure that data coming through is not a sql injection attack
@@ -184,22 +164,17 @@ function CheckLoginInDB($username,$userPassword)
     }
     $username = $this->SanitizeForSQL($username);
     $query = "SELECT access FROM user WHERE username='" . $username . "' AND password='" . $userPassword . "'";
-
     $result = mysqli_query($this->connection, $query);
 
-    if(!$result || mysqli_num_rows($result) <= 0)
+    if(!$result || mysqli_num_rows($result) == NULL)
     {
+      echo "invalid";
         $this->errorHandler("Error logging in. The username or password does not match");
         return false;
     }
 
-    $row = mysqli_fetch_assoc($result);
-if($query == '1'){
+    // $row = mysqli_fetch_assoc($result);
     return true;
-  }
-  else{
-    return false;
-  }
 }
 
 function GetErrorMessage()
@@ -209,7 +184,7 @@ function GetErrorMessage()
         return '';
     }
     $errormsg = nl2br(htmlentities($this->error_message));
-    // return $errormsg;
+    return $errormsg;
 }
 
 

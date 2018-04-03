@@ -53,9 +53,7 @@ $dao = new Dao();
 				$(document).on('click', "#login", function(){
 					var user = $("#username");
 					var password = $("#password");
-					if(!user.empty() && !password.empty()){
 						"<?php echo $dao->login() ?>"
-					}
 				})
 
 				$(document).on('click', "#signUp", function(){
