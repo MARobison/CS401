@@ -59,6 +59,23 @@ function login(){
 //Insert into database for a new user
   function InsertIntoDB()
   {
+    if(empty($_POST['username'])){
+      echo "Empty username";
+        $this->errorHandler("UserName is empty!");
+        return false;
+    }
+    if(empty($_POST['password'])){
+        $this->errorHandler("Password is empty!");
+        return false;
+    }
+    if(empty($_POST['email'])){
+      $this->errorHandler("Email is empty!");
+      return false;
+    }
+    if($this->checkExistingUser() == false){
+      $this->errorHandler("Username is already taken");
+      return false;
+    }
     $username = $_POST['username'];
     $email = $_POST['email'];
     $userPassword = $_POST['password'];
@@ -77,7 +94,7 @@ function login(){
               "' . 1 . '"
               )';
         mysqli_query($this->connection, $insert_query);
-    }
+  }
       else if(!mysqli_query($this->connection, $insert_query))
       {
           $this->errorHandler("Error inserting data to the table");
