@@ -9,7 +9,7 @@ $dao = new Dao();
 	<title>Login Page</title>
 	<link rel="icon" href="twoDragon.png" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="loginpage.css">
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
 
