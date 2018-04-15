@@ -17,7 +17,6 @@ class DAO {
 //Check to see if user actually has access
 function login(){
   if(empty($_POST['username'])){
-    echo "Empty username";
       $this->errorHandler("UserName is empty!");
       return false;
   }
@@ -29,6 +28,7 @@ function login(){
   $userPassword = trim($_POST['password']);
   if(!isset($_SESSION)){
     session_start();
+    echo "Session started";
   }
   if(!$this->CheckLoginInDB($username,$userPassword))
   {
@@ -89,6 +89,7 @@ function checkExistingUser($username){
   $result = mysqli_query($this->connection, $query);
   if($result && mysqli_num_rows($result) > 0){
      $this->errorHandler("Username already exists");
+     echo "Username already exists";
     return false;
   }
   return true;
@@ -168,9 +169,9 @@ function CheckLoginInDB($username,$userPassword)
 
     if(!$result || mysqli_num_rows($result) == NULL)
     {
-      echo "invalid";
         $this->errorHandler("Error logging in. The username or password does not match");
-        return false;
+      echo "Password or username does not match our records";
+      return false;
     }
 
     // $row = mysqli_fetch_assoc($result);

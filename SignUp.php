@@ -28,17 +28,17 @@ $dao = new Dao();
 		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
 	</div>
 </div>
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form method="POST">
   <div class="container">
     <h1>Sign Up</h1>
     <p>Creating an account will allow you to add to our creatures map!</p>
     <hr>
     <label for="username"><b>Username: </b></label>
-    <input type="text" class="username" placeholder="Enter Username" name="username" required>
+    <input type="text" id="username" class="username" placeholder="Enter Username" name="username" required>
     <label for="email"><b>Email: </b></label>
-    <input type="text" class="email" placeholder="Enter Email" name="email" required>
+    <input type="text" id="email" class="email" placeholder="Enter Email" name="email" required>
     <label for="psw"><b>Password: </b></label>
-    <input type="password" class="password" placeholder="Enter Password" name="password" required>
+    <input type="password" id="password" class="password" placeholder="Enter Password" name="password" required>
     <div class="clearfix">
       <input id="cancel" type = "submit" value="Cancel">
 			<input id="signUpConfirm" type = "submit" value="Sign Up">
@@ -48,14 +48,26 @@ $dao = new Dao();
 
 <script>
 
-$(document).on('click', "#signUpConfirm", function(){
-  var user = $("input[type='text', name='username']");
-  var email = $("input[type='text', name='email']");
-  var password = $("input[type='text', name='password']");
-    "<?php
-    $dao->InsertIntoDB();
-    echo $dao->GetErrorMessage();
-    ?>"
+$(document).ready(function(){
+$("#signUpConfirm").click(function(){
+  var username = $("#username").val();
+  var email = $("#email").val();
+  var password = $("#password").val();
+
+	if( username =='' || password =='' || email == ''){
+			$('input[type="text"],input[type="password"]').css("border","2px solid red");
+			$('input[type="text"],input[type="password"]').css("box-shadow","0 0 3px red");
+			alert("Please fill in all fields");
+}else {
+	var helper = "<?php echo $dao->InsertIntoDB()?>";
+    if(helper == "Username already exists"){
+			alert("Username already exists!");
+		} else if(helper == "1"){
+			alert("Account created successfully!");
+			window.location.href = 'LoginPage.php';
+		}
+	}
+	})
 });
 
 $(document).on('click', "#cancel", function(){

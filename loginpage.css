@@ -50,6 +50,14 @@ img.rightDragon{
 	font-weight: bold;
 	background-color:white;
 }
+
+#loginButton{
+	display:block;
+}
+
+#logoutButton{
+	display:none;
+}
 .tab {
     overflow: hidden;
     border: 1px solid #ccc;

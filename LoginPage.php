@@ -10,6 +10,7 @@ $dao = new Dao();
 	<link rel="icon" href="twoDragon.png" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="loginpage.css">
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script scr="jquery.session.js"></script>
 </head>
 <body>
 
@@ -26,17 +27,17 @@ $dao = new Dao();
 		<button class="tablinks" onclick="location.href='HomePage.html'">HOME</button>
 		<button class="tablinks" onclick="location.href='CreatureList.html'">CREATURES</button>
 		<button class="tablinks" onclick="location.href='Map.html'">MAP</button>
-		<div id="loginButton" style="display:block;">
+		<div id="loginButton">
 		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
 	</div>
-	<div id="logoutButton" style="display:none;">
+	<div id="logoutButton">
 		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG OUT</button>
 	</div>
 	</div>
 		<div class="loginForm">
 			<div> <span class="error"> <?php echo $dao->GetErrorMessage();?></span> </div>
       <div id="middle">
-			<form id=loginCreds method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+			<form id=loginCreds method="POST">
 			<!-- <form id=loginCreds method="POST" action="login.php"> -->
   		User Name:
   		<input id="username" type="text" class="User" name="username" placeholder="Username" autocomplete="off" required>
@@ -47,27 +48,39 @@ $dao = new Dao();
 			<span id='login_password_errorloc' class='error'></span>
 			<br>
 			<input id="login" type = "submit" value="Sign In">
+			<!-- <div id="signUpPage"> -->
 			<input id="signUp" type = "submit" value="Create Account">
+		<!-- </div> -->
 			<script type='text/javascript'>
 
-				$(document).on('click', "#login", function(){
-					var user = $("#username");
-					var password = $("#password");
-						"<?php echo $dao->login() ?>"
-				})
+			$(document).on('click', "#signUp", function(){
+				window.location.href = 'SignUp.php';
+			});
 
-				$(document).on('click', "#signUp", function(){
-					window.location.href = 'SignUp.php';
-				})
-
-				function loginSuccessful(){
-					var logoutButton = document.getElementById('logoutButton');
-					var loginButton = document.getElementById('loginButton');
-					if(logoutButton.style.display === "none" && loginButton.style.display === "block"){
-						logoutButton.style.display = "block";
-						loginButton.style.display = "none";
+			$(document).ready(function(){
+			$("#login").click(function(){
+				var username = $("#username").val();
+				var password = $("#password").val();
+				if( username =='' || password ==''){
+						$('input[type="text"],input[type="password"]').css("border","2px solid red");
+						$('input[type="text"],input[type="password"]').css("box-shadow","0 0 3px red");
+						alert("Please fill in all fields");
+			}else {
+				var helper = "<?php echo $dao->login()?>";
+					if(helper == "Password or username does not match our records"){
+						alert("Password or username does not match our records");
 					}
+					else if(helper == "1"){
+						alert("Login Successful");
+						var logoutButton = document.getElementById('logoutButton');
+						var loginButton = document.getElementById('loginButton');
+							$("#loginButton").css({display:"none"});
+							$("#logoutButton").css({display:"block"});
 				}
+			}
+		})
+	});
+
 
 			</script>
 			</form>
