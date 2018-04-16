@@ -51,13 +51,31 @@ img.rightDragon{
 	background-color:white;
 }
 
-#loginButton{
+#logoutButtonHolder{
+	visibility:visible;
 	display:block;
+	float:right;
+	padding-top: 20px;
+	padding-right: 10px;
+	color:black;
 }
 
 #logoutButton{
-	display:none;
+	visibility:visible;
+	display:block;
+	float:right;
+	background-color: black;
+	color:white;
+	border-style: double;
+	border-color: rgba(21, 116, 128,1.5);
+	border-radius: 10px;
+	box-sizing: border-box;
+	cursor: pointer;
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
 }
+
 .tab {
     overflow: hidden;
     border: 1px solid #ccc;

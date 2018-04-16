@@ -14,6 +14,10 @@ $dao = new Dao();
 </head>
 <body>
 
+	<div id="logoutButtonHolder">
+		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
+	</div>
+<br>
 	<div id="iconHolder">
 		<img src="yinyangdragon.png" class="leftDragon" alt="First Dragon">
     <img src="yinyangdragon.png" class="rightDragon" alt="Second Dragon">
@@ -24,14 +28,11 @@ $dao = new Dao();
 </div>
 <div id="tabHolder">
 	<div class="tab">
-		<button class="tablinks" onclick="location.href='HomePage.html'">HOME</button>
-		<button class="tablinks" onclick="location.href='CreatureList.html'">CREATURES</button>
-		<button class="tablinks" onclick="location.href='Map.html'">MAP</button>
-		<div id="loginButton">
+		<button class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
+		<button class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
+		<button class="tablinks" onclick="location.href='Map.php'">MAP</button>
+		<div id="loginButton" style="visibility:visible; display:block;">
 		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
-	</div>
-	<div id="logoutButton">
-		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG OUT</button>
 	</div>
 	</div>
 		<div class="loginForm">
@@ -72,13 +73,16 @@ $dao = new Dao();
 					}
 					else if(helper == "1"){
 						alert("Login Successful");
-						var logoutButton = document.getElementById('logoutButton');
-						var loginButton = document.getElementById('loginButton');
-							$("#loginButton").css({display:"none"});
-							$("#logoutButton").css({display:"block"});
+						header("Location:Map.php");
+						"<?php echo $_SESSION['user']; ?>"
 				}
 			}
 		})
+	});
+
+	$(document).on('click', "#logoutButton", function(){
+	  alert("You have succesfully logged out!");
+
 	});
 
 

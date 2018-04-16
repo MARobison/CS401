@@ -28,13 +28,14 @@ function login(){
   $userPassword = trim($_POST['password']);
   if(!isset($_SESSION)){
     session_start();
-    echo "Session started";
   }
   if(!$this->CheckLoginInDB($username,$userPassword))
   {
     $this->errorHandler("User not found");
     return false;
   }
+
+  $_SESSION['user'] = $username;
   return true;
   }
 
@@ -72,7 +73,7 @@ function login(){
               (
               "' . $this->SanitizeForSQL($username) . '",
               "' . $this->SanitizeForSQL($email) . '",
-              "' . $this->SanitizeForSQL($userPassword) . '",
+              "' . md5($userPassword) . '",
               "' . 1 . '"
               )';
         mysqli_query($this->connection, $insert_query);
@@ -164,7 +165,7 @@ function CheckLoginInDB($username,$userPassword)
         return false;
     }
     $username = $this->SanitizeForSQL($username);
-    $query = "SELECT access FROM user WHERE username='" . $username . "' AND password='" . $userPassword . "'";
+    $query = "SELECT access, email, username FROM user WHERE username='" . $username . "' AND password='" . $userPassword . "'";
     $result = mysqli_query($this->connection, $query);
 
     if(!$result || mysqli_num_rows($result) == NULL)
@@ -174,7 +175,9 @@ function CheckLoginInDB($username,$userPassword)
       return false;
     }
 
-    // $row = mysqli_fetch_assoc($result);
+     $row = mysqli_fetch_assoc($result);
+     $_SESSION['user'] = $row['username'];
+     $_SESSION['email'] = $row['email'];
     return true;
 }
 

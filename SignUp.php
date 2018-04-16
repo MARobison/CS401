@@ -12,6 +12,10 @@ $dao = new Dao();
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
+	<div id="logoutButtonHolder">
+		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
+	</div>
+	<br>
   <div id="iconHolder">
 		<img src="yinyangdragon.png" class="leftDragon" alt="First Dragon">
     <img src="yinyangdragon.png" class="rightDragon" alt="Second Dragon">
@@ -22,21 +26,21 @@ $dao = new Dao();
 </div>
 <div id="tabHolder">
 	<div class="tab">
-		<button class="tablinks" onclick="location.href='HomePage.html'">HOME</button>
-		<button class="tablinks" onclick="location.href='CreatureList.html'">CREATURES</button>
-		<button class="tablinks" onclick="location.href='Map.html'">MAP</button>
+		<button class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
+		<button class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
+		<button class="tablinks" onclick="location.href='Map.php'">MAP</button>
 		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
 	</div>
 </div>
 <form method="POST">
   <div class="container">
     <h1>Sign Up</h1>
-    <p>Creating an account will allow you to add to our creatures map!</p>
+    <p>Creating an account will allow you to see our creatures map!</p>
     <hr>
     <label for="username"><b>Username: </b></label>
     <input type="text" id="username" class="username" placeholder="Enter Username" name="username" required>
     <label for="email"><b>Email: </b></label>
-    <input type="text" id="email" class="email" placeholder="Enter Email" name="email" required>
+    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" class="email" placeholder="Enter Email" name="email" required>
     <label for="psw"><b>Password: </b></label>
     <input type="password" id="password" class="password" placeholder="Enter Password" name="password" required>
     <div class="clearfix">
@@ -48,8 +52,10 @@ $dao = new Dao();
 
 <script>
 
+
 $(document).ready(function(){
 $("#signUpConfirm").click(function(){
+	<?php session_destroy(); ?>
   var username = $("#username").val();
   var email = $("#email").val();
   var password = $("#password").val();
@@ -64,7 +70,7 @@ $("#signUpConfirm").click(function(){
 			alert("Username already exists!");
 		} else if(helper == "1"){
 			alert("Account created successfully!");
-			window.location.href = 'LoginPage.php';
+			header("Location:Map.php");
 		}
 	}
 	})
@@ -72,7 +78,15 @@ $("#signUpConfirm").click(function(){
 
 $(document).on('click', "#cancel", function(){
   window.location.href = 'LoginPage.php';
-})
+});
+
+$(document).on('click', "#logoutButton", function(){
+  alert("You have succesfully logged out!");
+	<?php
+	session_unset();
+	session_destroy();
+	?>
+});
 
 </script>
 
