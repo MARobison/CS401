@@ -9,11 +9,12 @@ $dao = new Dao();
     <title>Home Page</title>
      <link rel="icon" href="twoDragon.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="mainPageStyle.css">
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
   </head>
   <body>
     <div id="logoutButtonHolder">
-      <button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
-    </div>
+  		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
+  	</div>
     <br>
     <div id="iconHolder">
     <img src="yinyangdragon.png" class="leftDragon" alt="First Dragon">
@@ -70,10 +71,18 @@ $dao = new Dao();
     </div>
     <div>
       Creature of the month:
-
+      <div>
+        
+      </div>
     </div>
 
   </div>
+  <script>
+  $(document).on('click', "#logoutButton", function(){
+    alert("You have succesfully logged out!");
+
+  });
+  </script>
   <br>
   <footer>
   <p>Property of Mythical Origins</p>

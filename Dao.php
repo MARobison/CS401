@@ -12,6 +12,7 @@ class DAO {
   var $username;
   var $userPassword;
   var $email;
+  var $sessionvar;
 
 //Check to see if login information is empty
 //Check to see if user actually has access
@@ -26,6 +27,7 @@ function login(){
   }
   $username = trim($_POST['username']);
   $userPassword = trim($_POST['password']);
+
   if(!isset($_SESSION)){
     session_start();
   }
@@ -41,6 +43,27 @@ function login(){
 
   function errorHandler($error){
     $this->error_message .= $error;
+  }
+
+  function CheckLogin(){
+    if(!isset($_SESSION)){
+      session_start();
+    }
+
+    $sessionvar = $username;
+
+    if(empty($_SESSION[$sessionvar]))
+    {
+       return false;
+    }
+    return true;
+  }
+
+  function LogOut(){
+    session_start();
+    //$sessionvar = $username;
+    $_SESSION['user'] = NULL;
+    unset($_SESSION['user']);
   }
 
 //Insert into database for a new user
@@ -165,7 +188,8 @@ function CheckLoginInDB($username,$userPassword)
         return false;
     }
     $username = $this->SanitizeForSQL($username);
-    $query = "SELECT access, email, username FROM user WHERE username='" . $username . "' AND password='" . $userPassword . "'";
+    $userPasswordmd5 = md5($userPassword);
+    $query = "SELECT access, email, username FROM user WHERE username='" . $username . "' AND password='" . $userPasswordmd5 . "'";
     $result = mysqli_query($this->connection, $query);
 
     if(!$result || mysqli_num_rows($result) == NULL)

@@ -9,11 +9,12 @@ $dao = new Dao();
     <title>CreatureList</title>
     <link rel="icon" href="twoDragon.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="mainPageStyle.css">
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
   </head>
   <body>
     <div id="logoutButtonHolder">
-      <button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
-    </div>
+  		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
+  	</div>
     <br>
     <div id="iconHolder">
       <img src="yinyangdragon.png" class="leftDragon" alt="First Dragon">
@@ -54,15 +55,33 @@ $dao = new Dao();
   <br>
   <div id="creatureList">
     <ul>
+      <a href="javascript:void" onclick="function(void)">
+      <li>Dragon</li>
       <li>Vampire</li>
       <li>Werewolf</li>
       <li>Banshee</li>
       <li>Angel</li>
       <li>Mummy</li>
       <li>Goblin</li>
+      <li>Siren</li>
+      <li>Basilisk</li>
+      <li>Pegasus</li>
+      <li>Hydra</li>
+      <li>Scylla</li>
+      <li>Elf</li>
+      <li>Fairy</li>
+      <li>Griffon</li>
+      <li>Nymph</li>
+      <li>Demon</li>
+      <li>Manticore</li>
     </ul>
   </div>
   <br>
+  <script>
+  $(document).on('click', "#logoutButton", function(){
+    alert("You have succesfully logged out!");
+  });
+  </script>
   <div id="footerHolder">
   <footer>
   <p>Property of Mythical Origins</p>

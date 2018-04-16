@@ -13,7 +13,7 @@ $dao = new Dao();
 </head>
 <body>
 	<div id="logoutButtonHolder">
-		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
+		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
 	</div>
 	<br>
   <div id="iconHolder">
@@ -82,10 +82,6 @@ $(document).on('click', "#cancel", function(){
 
 $(document).on('click', "#logoutButton", function(){
   alert("You have succesfully logged out!");
-	<?php
-	session_unset();
-	session_destroy();
-	?>
 });
 
 </script>

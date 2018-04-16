@@ -1,7 +1,12 @@
 <?php
 require_once('Dao.php');
-session_start();
 $dao = new Dao();
+if(isset($POST['submitted']))
+{
+	if($dao->login()){
+		header("Location:LoginPage.php");
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,12 +15,11 @@ $dao = new Dao();
 	<link rel="icon" href="twoDragon.png" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="loginpage.css">
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script scr="jquery.session.js"></script>
 </head>
 <body>
 
 	<div id="logoutButtonHolder">
-		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
+		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
 	</div>
 <br>
 	<div id="iconHolder">
@@ -74,14 +78,13 @@ $dao = new Dao();
 					else if(helper == "1"){
 						alert("Login Successful");
 						header("Location:Map.php");
-						"<?php echo $_SESSION['user']; ?>"
 				}
 			}
 		})
 	});
 
 	$(document).on('click', "#logoutButton", function(){
-	  alert("You have succesfully logged out!");
+		alert("You have succesfully logged out!");
 
 	});
 

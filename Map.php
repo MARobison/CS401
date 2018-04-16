@@ -2,7 +2,7 @@
 require_once('Dao.php');
 session_start();
 $dao = new Dao();
-if(!isset($_SESSION['username'])){
+if(!isset($_SESSION['user'])){
    header("Location:LoginPage.php");
 }
 ?>
@@ -18,8 +18,8 @@ if(!isset($_SESSION['username'])){
   </head>
   <body>
     <div id="logoutButtonHolder">
-      <button id="logoutButton" class="tablinks" type="submit" onclick="location.href='LoginPage.php'">LOG OUT</button>
-    </div>
+  		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
+  	</div>
     <br>
     <div id="iconHolder">
     <img src="yinyangdragon.png" alt="First Dragon" style="width:100px;height:100px;float:left">
@@ -161,7 +161,12 @@ if(!isset($_SESSION['username'])){
       });
 
     </script>
+    <script>
+    $(document).on('click', "#logoutButton", function(){
+      alert("You have succesfully logged out!");
 
+    });
+    </script>
     <script type = "text/html" id = "point">
     <a href="{icon}" target="_blank" title="Click to open photo in new tab"><img src="{url}" style="float: left"></a><br>
       <p>Device Name: <a href="{status}" target="_blank" title="Click to view device details in new tab">{deviceName}</a> in city: {city_Name} at coordinates lat: {latitude} lon: {longitude}</p><br>
