@@ -1,3 +1,8 @@
+@font-face{
+	font-family: "booter ff";
+	src: url("booter.five-five.ttf");
+}
+
 body{
 	margin: 0px auto;
 	padding: 0px;
@@ -12,10 +17,12 @@ body{
 	color:white;
 	background-color:rgba(21, 116, 128,0.5);
 	text-align:center;
-	padding-top: 40px;
-	margin-top: 50px;
+	font-size: 70px;
+	font-family: "booter ff";
+	padding-top: 30px;
+	padding-bottom: 50px;
 	width:100%;
-	height:70px;
+	height:40px;
 }
 
 #tabHolder{
@@ -30,11 +37,13 @@ img.leftDragon{
 	width:100px;
 	height:100px;
 	float:left;
+	padding-top: 10px;
 }
 img.rightDragon{
 	width:100px;
 	height:100px;
 	float:right;
+	padding-top: 10px;
 }
 .center{
 	background: url("vault.jpg") no-repeat center center fixed;
@@ -102,7 +111,7 @@ img.rightDragon{
 
 /* Create an active/current tablink class */
 .tab button.active {
-    background-color: #ccc;
+    background-color: rgba(21, 116, 128,1.5);
 }
 
 /* Style the tab content */
@@ -113,6 +122,9 @@ img.rightDragon{
     border-top: none;
 }
 
+#errorMessage{
+	background-color: white;
+}
 
 h4, p {
 	margin:0;

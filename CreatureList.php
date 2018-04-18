@@ -13,67 +13,46 @@ $dao = new Dao();
   </head>
   <body>
     <div id="logoutButtonHolder">
-  		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
+  		<button id="logoutButton" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
   	</div>
     <br>
     <div id="iconHolder">
       <img src="yinyangdragon.png" class="leftDragon" alt="First Dragon">
       <img src="yinyangdragon.png" class="rightDragon" alt="Second Dragon">
     <h1 id="banner">
-      Mythical Origins
+      MYTHICAL ORIGINS
     </h1>
   </div>
   <div id="tabHolder">
     <div class="tab">
       <button class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
-      <button class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
+      <button class="active" onclick="location.href='CreatureList.php'">CREATURES</button>
       <button class="tablinks" onclick="location.href='Map.php'">MAP</button>
       <button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
-    </div>
-
-    <div id="Home" class="tabcontent">
-      <h3>HOME</h3>
-      <p>Access Home</p>
-    </div>
-
-    <div id="Creatures" class="tabcontent">
-      <h3>CREATURES</h3>
-      <p>Access Creatures</p>
-    </div>
-
-    <div id="Map" class="tabcontent">
-      <h3>MAP</h3>
-      <p>Access Map</p>
-    </div>
-
-    <div id="Login" class="tabcontent">
-      <h3>LOG IN</h3>
-      <p>Gonna log in</p>
     </div>
 
   </div>
   <br>
   <div id="creatureList">
     <ul>
-      <a href="javascript:void" onclick="function(void)">
-      <li>Dragon</li>
-      <li>Vampire</li>
-      <li>Werewolf</li>
-      <li>Banshee</li>
-      <li>Angel</li>
-      <li>Mummy</li>
-      <li>Goblin</li>
-      <li>Siren</li>
-      <li>Basilisk</li>
-      <li>Pegasus</li>
-      <li>Hydra</li>
-      <li>Scylla</li>
-      <li>Elf</li>
-      <li>Fairy</li>
-      <li>Griffon</li>
-      <li>Nymph</li>
-      <li>Demon</li>
-      <li>Manticore</li>
+    <a href="javascript:void"><li>Dragon</li></a>
+      <a href="javascript:void"><li>Vampire</li></a>
+      <a href="javascript:void"><li>Werewolf</li></a>
+      <a href="javascript:void"><li>Banshee</li></a>
+      <a href="javascript:void"><li>Angel</li></a>
+      <a href="javascript:void"><li>Mummy</li></a>
+      <a href="javascript:void"><li>Goblin</li></a>
+      <a href="javascript:void"><li>Siren</li></a>
+      <a href="javascript:void"><li>Basilisk</li></a>
+      <a href="javascript:void"><li>Pegasus</li></a>
+      <a href="javascript:void"><li>Hydra</li></a>
+      <a href="javascript:void"><li>Scylla</li></a>
+      <a href="javascript:void"><li>Elf</li></a>
+      <a href="javascript:void"><li>Fairy</li></a>
+      <a href="javascript:void"><li>Griffon</li></a>
+      <a href="javascript:void"><li>Nymph</li></a>
+      <a href="javascript:void"><li>Demon</li></a>
+      <a href="javascript:void"><li>Manticore</li></a>
     </ul>
   </div>
   <br>

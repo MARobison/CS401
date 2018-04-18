@@ -21,7 +21,7 @@ $dao = new Dao();
     <img src="yinyangdragon.png" class="rightDragon" alt="Second Dragon">
 
 	<h1 id="banner">
-		Mythical Origins
+		MYTHICAL ORIGINS
 	</h1>
 </div>
 <div id="tabHolder">

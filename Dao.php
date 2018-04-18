@@ -1,10 +1,10 @@
 <?php
 class DAO {
 
-  private $host = "127.0.0.1";
-  private $db = "cs401";
-  private $user = "root";
-  private $password = "";
+  private $host = "us-cdbr-iron-east-05.cleardb.net";
+  private $db = "heroku_00cb65a73a2f1fd";
+  private $user = "b59c43093d3188";
+  private $password = "4c91422f";
 
   var $error_message;
   var $connection;

@@ -20,12 +20,12 @@ $dao = new Dao();
     <img src="yinyangdragon.png" class="leftDragon" alt="First Dragon">
     <img src="yinyangdragon.png" class="rightDragon" alt="Second Dragon">
     <h1 id="banner">
-      Mythical Origins
+      MYTHICAL ORIGINS
     </h1>
   </div>
   <div id="tabHolder">
     <div class="tab">
-      <button class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
+      <button class="active" onclick="location.href='HomePage.php'">HOME</button>
       <button class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
       <button class="tablinks" onclick="location.href='Map.php'">MAP</button>
       <button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
@@ -72,7 +72,7 @@ $dao = new Dao();
     <div>
       Creature of the month:
       <div>
-        
+
       </div>
     </div>
 

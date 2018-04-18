@@ -27,17 +27,18 @@ if(isset($POST['submitted']))
     <img src="yinyangdragon.png" class="rightDragon" alt="Second Dragon">
 
 	<h1 id="banner">
-		Mythical Origins
+		MYTHICAL ORIGINS
 	</h1>
 </div>
 <div id="tabHolder">
 	<div class="tab">
-		<button class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
-		<button class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
-		<button class="tablinks" onclick="location.href='Map.php'">MAP</button>
-		<div id="loginButton" style="visibility:visible; display:block;">
-		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
+		<button id="home" class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
+		<button id="creatures" class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
+		<button id="map" class="tablinks" onclick="location.href='Map.php'">MAP</button>
+		<button id="login" class="active" onclick="location.href='LoginPage.php'">LOG IN</button>
 	</div>
+
+	<div id="errorMessage" style="display:none;"> Please fill in all fields!
 	</div>
 		<div class="loginForm">
 			<div> <span class="error"> <?php echo $dao->GetErrorMessage();?></span> </div>
@@ -52,34 +53,35 @@ if(isset($POST['submitted']))
   		<input id="password" type="password" class="Password" name="password" placeholder="Password..." autocomplete="off" required>
 			<span id='login_password_errorloc' class='error'></span>
 			<br>
-			<input id="login" type = "submit" value="Sign In">
-			<!-- <div id="signUpPage"> -->
+			<input id="signIn" type = "submit" value="Sign In">
 			<input id="signUp" type = "submit" value="Create Account">
-		<!-- </div> -->
+			<!-- <button id="signIn" onclick="checkSubmit();"> -->
 			<script type='text/javascript'>
 
 			$(document).on('click', "#signUp", function(){
 				window.location.href = 'SignUp.php';
 			});
 
+// function checkSubmit(){
 			$(document).ready(function(){
-			$("#login").click(function(){
+			$("#signIn").click(function(){
 				var username = $("#username").val();
 				var password = $("#password").val();
+				var helper = "<?php echo $dao->login()?>";
 				if( username =='' || password ==''){
 						$('input[type="text"],input[type="password"]').css("border","2px solid red");
 						$('input[type="text"],input[type="password"]').css("box-shadow","0 0 3px red");
-						alert("Please fill in all fields");
 			}else {
-				var helper = "<?php echo $dao->login()?>";
+
 					if(helper == "Password or username does not match our records"){
-						alert("Password or username does not match our records");
+					 document.getElementById('errorMessage').style.display = 'block';
 					}
 					else if(helper == "1"){
 						alert("Login Successful");
 						header("Location:Map.php");
 				}
 			}
+		// };
 		})
 	});
 
@@ -87,6 +89,7 @@ if(isset($POST['submitted']))
 		alert("You have succesfully logged out!");
 
 	});
+
 
 
 			</script>

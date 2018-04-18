@@ -26,14 +26,14 @@ if(!isset($_SESSION['user'])){
     <img src="yinyangdragon.png" alt="Second Dragon" style="width:100px;height:100px;float:right">
 
     <h1 id="banner">
-      Mythical Origins
+      MYTHICAL ORIGINS
     </h1>
 </div>
   <div id="tabHolder">
     <div class="tab">
       <button class="tablinks" onclick="location.href='HomePage.php'">HOME</button>
       <button class="tablinks" onclick="location.href='CreatureList.php'">CREATURES</button>
-      <button class="tablinks" onclick="location.href='Map.php'">MAP</button>
+      <button class="active" onclick="location.href='Map.php'">MAP</button>
       <button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
     </div>
 
@@ -59,6 +59,7 @@ if(!isset($_SESSION['user'])){
     </div>
   <br>
     <div id="map" class="map"></div>
+    <br>
     <div id="point-info"></div>
 
     <script>
@@ -82,10 +83,10 @@ if(!isset($_SESSION['user'])){
 
 
       function pointFStyle(feature){
-        return [pointStyle(feature, 0.05)];
+        return [pointStyle(feature, 0.04)];
       }
       function selectedStyle(feature){
-        return [pointStyle(feature, 0.50)];
+        return [pointStyle(feature, 0.06)];
       }
 
       var vector = new ol.layer.Vector({
@@ -100,18 +101,22 @@ if(!isset($_SESSION['user'])){
       var center = ol.proj.transform([0,25], 'EPSG:4326', 'EPSG:3857');
 
       var map = new ol.Map({
+        controls: ol.control.defaults().extend([
+          new ol.control.FullScreen()
+        ]),
+        interactions: ol.interaction.defaults({mouseWheelZoom:false}),
         renderer: 'canvas',
         layers: [layer, vector],
         target: 'map',
         view: new ol.View({
           center: center,
-          zoom: 2.5
+          zoom: 2.2
         })
       });
 
       function pointContent(feature) {
         var content = $('#point').html();
-        var keys = ['city_Name', 'latitude', 'longitude', 'deviceName', 'status', 'icon']; //data to be used
+        var keys = ['creaturename', 'description', 'latitude', 'longitude', 'countryName', 'source']; //data to be used
         for(var i = 0; i<keys.length; i++){
           var key = keys[i];
           var value = feature.get(key);
@@ -141,13 +146,11 @@ if(!isset($_SESSION['user'])){
 
       function successHandler(data){
         var transform = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
-        //  data.forEach(function(item){
-        for(var i =0;i < data.length-1;i++){
+        for(var i =0;i < data.length;i++){
             var item = data[i];
             var feature = new ol.Feature(item);
             feature.set('url', item.icon);
             var coordinate = transform([parseFloat(item.longitude), parseFloat(item.latitude)]);
-          //  var coordinate = ol.proj.transform([item.longitude,item.latitude], 'EPSG:4326', 'EPSG:3857');
             var geometry = new ol.geom.Point(coordinate);
             feature.setGeometry(geometry);
             deviceSource.addFeature(feature);
@@ -155,9 +158,10 @@ if(!isset($_SESSION['user'])){
       }
 
       $.ajax({
-        url: 'http://localhost/test.php',
+        type: "POST",
+        url: 'CreatureSelection.php',
         dataType: 'json',
-        success: successHandler
+        success: successHandler,
       });
 
     </script>
@@ -168,8 +172,12 @@ if(!isset($_SESSION['user'])){
     });
     </script>
     <script type = "text/html" id = "point">
-    <a href="{icon}" target="_blank" title="Click to open photo in new tab"><img src="{url}" style="float: left"></a><br>
-      <p>Device Name: <a href="{status}" target="_blank" title="Click to view device details in new tab">{deviceName}</a> in city: {city_Name} at coordinates lat: {latitude} lon: {longitude}</p><br>
+      <b>Creatures: </b> </br>
+          <ul>
+          <b>Creature Name: </b> {creaturename} </br>
+          <b>Description: </b> {description} </br>
+          <b>Country Name: </b> {countryName} </br>
+          <b>Source: </b> {source}</br>
     </script>
     <footer>
     <p>Property of Mythical Origins</p>
