@@ -122,8 +122,24 @@ img.rightDragon{
     border-top: none;
 }
 
-#errorMessage{
-	background-color: white;
+#errorMessage {
+  background-color:#CC0000;
+	opacity: 0.7;
+	filter: alpha(opacity=60);
+  color: white;
+  padding: 8px 15px;
+	margin-left: auto;
+	margin-right: auto;
+  width: 300px;
+}
+
+#errorMessageHolder{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 400px;
+	height: 25px;
 }
 
 h4, p {
@@ -187,9 +203,9 @@ input[type=submit] {
 .loginForm{
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 100px;
+	margin-top: 50px;
 	width: 500px;
-	height: 100px;
+	height: 140px;
 	opacity: 0.7;
 	filter: alpha(opacity=60);
 	padding: 50px 0px;
@@ -203,13 +219,14 @@ input[type=submit] {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 30px;
-	padding: 10px;
+	margin-bottom: 50px;
 	width: 500px;
 	height: 300px;
 	opacity: 0.7;
 	filter: alpha(opacity=60);
 	border: 10px solid rgb(21,116,128);
 	background-color: white;
+	padding: 0px 10px;
 	border-radius: 15px 10px 10px 15px;
 	border-style: groove;
 }
@@ -229,6 +246,13 @@ input[type=text].password{
 	box-sizing: border-box;
 }
 
+.error
+{
+   font-family: Verdana, Arial, sans-serif;
+   font-size: 0.7em;
+   color: #900;
+   background-color : #ffff00;
+}
 
 footer {
 	border-top: solid;

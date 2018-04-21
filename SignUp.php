@@ -32,7 +32,18 @@ $dao = new Dao();
 		<button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
 	</div>
 </div>
-<form method="POST">
+<div id=errorMessageHolder>
+<?php
+if (isset($_SESSION['message'])) { ?>
+<div id="errorMessage"><?php
+	foreach ($_SESSION['message'] as $message) {
+		echo "<div>" . $message . "</div>";
+ }
+	unset($_SESSION['message']); ?>
+</div>
+<?php } ?>
+</div>
+<form method="POST" action="signup_handler.php">
   <div class="container">
     <h1>Sign Up</h1>
     <p>Creating an account will allow you to see our creatures map!</p>
@@ -43,38 +54,14 @@ $dao = new Dao();
     <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" class="email" placeholder="Enter Email" name="email" required>
     <label for="psw"><b>Password: </b></label>
     <input type="password" id="password" class="password" placeholder="Enter Password" name="password" required>
-    <div class="clearfix">
-      <input id="cancel" type = "submit" value="Cancel">
+<br>
 			<input id="signUpConfirm" type = "submit" value="Sign Up">
-    </div>
+			</form>
+			<input id="cancel" type = "submit" value="Cancel">
   </div>
-</form>
+
 
 <script>
-
-
-$(document).ready(function(){
-$("#signUpConfirm").click(function(){
-	<?php session_destroy(); ?>
-  var username = $("#username").val();
-  var email = $("#email").val();
-  var password = $("#password").val();
-
-	if( username =='' || password =='' || email == ''){
-			$('input[type="text"],input[type="password"]').css("border","2px solid red");
-			$('input[type="text"],input[type="password"]').css("box-shadow","0 0 3px red");
-			alert("Please fill in all fields");
-}else {
-	var helper = "<?php echo $dao->InsertIntoDB()?>";
-    if(helper == "Username already exists"){
-			alert("Username already exists!");
-		} else if(helper == "1"){
-			alert("Account created successfully!");
-			header("Location:Map.php");
-		}
-	}
-	})
-});
 
 $(document).on('click', "#cancel", function(){
   window.location.href = 'LoginPage.php';

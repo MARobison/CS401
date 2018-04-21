@@ -61,10 +61,9 @@ $dao = new Dao();
     alert("You have succesfully logged out!");
   });
   </script>
-  <div id="footerHolder">
+  <br>
   <footer>
   <p>Property of Mythical Origins</p>
 </footer>
-</div>
   </body>
 </html>

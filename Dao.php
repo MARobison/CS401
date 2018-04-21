@@ -6,44 +6,19 @@ class DAO {
   private $user = "b59c43093d3188";
   private $password = "4c91422f";
 
+  // private $host = "127.0.0.1";
+  // private $db = "cs401";
+  // private $user = "root";
+  // private $password = "";
+
   var $error_message;
   var $connection;
+  protected $logger;
 
   var $username;
   var $userPassword;
   var $email;
   var $sessionvar;
-
-//Check to see if login information is empty
-//Check to see if user actually has access
-function login(){
-  if(empty($_POST['username'])){
-      $this->errorHandler("UserName is empty!");
-      return false;
-  }
-  if(empty($_POST['password'])){
-      $this->errorHandler("Password is empty!");
-      return false;
-  }
-  $username = trim($_POST['username']);
-  $userPassword = trim($_POST['password']);
-
-  if(!isset($_SESSION)){
-    session_start();
-  }
-  if(!$this->CheckLoginInDB($username,$userPassword))
-  {
-    $this->errorHandler("User not found");
-    return false;
-  }
-
-  $_SESSION['user'] = $username;
-  return true;
-  }
-
-  function errorHandler($error){
-    $this->error_message .= $error;
-  }
 
   function CheckLogin(){
     if(!isset($_SESSION)){
@@ -61,78 +36,51 @@ function login(){
 
   function LogOut(){
     session_start();
-    //$sessionvar = $username;
     $_SESSION['user'] = NULL;
     unset($_SESSION['user']);
   }
 
 //Insert into database for a new user
-  function InsertIntoDB()
+  function InsertIntoDB($username, $password, $email)
   {
-    if(empty($_POST['username'])){
-      echo "Empty username";
-        $this->errorHandler("UserName is empty!");
-        return false;
-    }
-    if(empty($_POST['password'])){
-        $this->errorHandler("Password is empty!");
-        return false;
-    }
-    if(empty($_POST['email'])){
-      $this->errorHandler("Email is empty!");
-      return false;
-    }
     $username = $_POST['username'];
     $email = $_POST['email'];
     $userPassword = $_POST['password'];
-    if($this->AccessDatabase() == true && $this->checkExistingUser($username) == true){
-      $insert_query = 'INSERT INTO ' . 'user' .'(
-              username,
-              email,
-              password,
-              access
-              )
-              values
-              (
-              "' . $this->SanitizeForSQL($username) . '",
-              "' . $this->SanitizeForSQL($email) . '",
-              "' . md5($userPassword) . '",
-              "' . 1 . '"
-              )';
-        mysqli_query($this->connection, $insert_query);
-  }
-      else
-      {
-          return false;
-      }
-       return true;
+    $salt = '23efeaeat34tq3argafd';
+    $password = md5($password . $salt);
+    if($this->checkExistingUser($username) == false){
+      $conn = $this->AccessDatabase();
+      $query = $conn->prepare('INSERT INTO user (username,email,password,access)values(:username, :email, :password, 1)');
+      $query->bindParam(":username", $username);
+      $query->bindParam(":email", $email);
+      $query->bindParam(":password", $password);
+      $query->execute();
+      $results = $query->fetch(PDO::FETCH_ASSOC);
+      return true;
+    }
   }
 
 function checkExistingUser($username){
-  $query = "SELECT username FROM user WHERE username='" . $username ."'";
-  $result = mysqli_query($this->connection, $query);
-  if($result && mysqli_num_rows($result) > 0){
-     $this->errorHandler("Username already exists");
-     echo "Username already exists";
-    return false;
-  }
-  return true;
+  $conn = $this->AccessDatabase();
+  $query =  $conn->prepare("SELECT username FROM user WHERE username= :username");
+  $query->bindParam(":username", $username);
+  $query->execute();
+  $results = $query->fetch(PDO::FETCH_ASSOC);
+  if (is_array($results) && 0 < count($results)) {
+        return true;
+      } else {
+        return false;
+      }
 }
 //Connect to database
   function AccessDatabase(){
-    $this->connection = mysqli_connect($this->host,$this->user,$this->password,$this->db);
+    try{
+    $this->connection = new PDO("mysql:host={$this->host};dbname={$this->db}", $this->user,$this->password);
+    return $this->connection;
+  } catch (Exception $e) {
+      echo "connection failed: " . $e->getMessage();
+    }
 
-    if(!$this->connection)
-    {
-        $this->errorHandler("Database Login failed");
-        return false;
-    }
-    if(!mysqli_select_db($this->connection, $this->db))
-    {
-        $this->errorHandler("Failed to select database");
-        return false;
-    }
-    return true;
   }
 
 //Make sure that data coming through is not a sql injection attack
@@ -180,40 +128,24 @@ function StripSlashes($str)
 
 
 //Be able to login into the database and search for user and their password
-function CheckLoginInDB($username,$userPassword)
+function CheckLoginInDB($username,$password)
 {
-    if(!$this->AccessDatabase())
-    {
-        $this->errorHandler("Database login failed!");
-        return false;
-    }
-    $username = $this->SanitizeForSQL($username);
-    $userPasswordmd5 = md5($userPassword);
-    $query = "SELECT access, email, username FROM user WHERE username='" . $username . "' AND password='" . $userPasswordmd5 . "'";
-    $result = mysqli_query($this->connection, $query);
-
-    if(!$result || mysqli_num_rows($result) == NULL)
-    {
-        $this->errorHandler("Error logging in. The username or password does not match");
-      echo "Password or username does not match our records";
+    $salt = '23efeaeat34tq3argafd';
+    $password = md5($password . $salt);
+    $conn = $this->AccessDatabase();
+    $query = $conn->prepare("SELECT access, email, username FROM user WHERE username= :username AND password= :password");
+    $query->bindParam(":username", $username);
+    $query->bindParam(":password", $password);
+    $query->execute();
+    $results = $query->fetch(PDO::FETCH_ASSOC);
+    if (is_array($results) && 0 < count($results)) {
+      $_SESSION['user'] = $username;
+      return true;
+    } else {
       return false;
     }
-
-     $row = mysqli_fetch_assoc($result);
-     $_SESSION['user'] = $row['username'];
-     $_SESSION['email'] = $row['email'];
-    return true;
 }
 
-function GetErrorMessage()
-{
-    if(empty($this->error_message))
-    {
-        return '';
-    }
-    $errormsg = nl2br(htmlentities($this->error_message));
-    return $errormsg;
-}
 
 
 }

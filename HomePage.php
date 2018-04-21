@@ -69,7 +69,7 @@ $dao = new Dao();
         It's pretty simple, just hit the 'Log In' button to create an account or if you're already a member do a quick sign up!
       </p>
     </div>
-    <div>
+    <div id="creatureOfTheMonth">
       Creature of the month:
       <div>
 

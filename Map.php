@@ -36,6 +36,7 @@ if(!isset($_SESSION['user'])){
       <button class="active" onclick="location.href='Map.php'">MAP</button>
       <button class="tablinks" onclick="location.href='LoginPage.php'">LOG IN</button>
     </div>
+  </div>
 
   <div id="Home" class="tabcontent">
     <h3>HOME</h3>
@@ -56,7 +57,7 @@ if(!isset($_SESSION['user'])){
     <h3>LOG IN</h3>
     <p>Gonna log in</p>
   </div>
-    </div>
+
   <br>
     <div id="map" class="map"></div>
     <br>

@@ -1,7 +1,8 @@
 <?php header('Access-Control-Allow-Origin: *'); ?>
 <?php
 set_time_limit(0);
-$link = mysqli_connect("127.0.0.1", "root", "", "cs401");
+// $link = mysqli_connect("127.0.0.1", "root", "", "cs401");
+$link = mysqli_connect("us-cdbr-iron-east-05.cleardb.net", "b59c43093d3188", "4c91422f", "heroku_00cb65a73a2f1fd");
 
 if(mysqli_connect_errno()){
   printf("Connect failed: %s\n", mysqli_connect_error());

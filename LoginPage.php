@@ -1,12 +1,8 @@
 <?php
+session_start();
 require_once('Dao.php');
 $dao = new Dao();
-if(isset($POST['submitted']))
-{
-	if($dao->login()){
-		header("Location:LoginPage.php");
-	}
-}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,7 +13,6 @@ if(isset($POST['submitted']))
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
-
 	<div id="logoutButtonHolder">
 		<button id="logoutButton" class="tablinks" type="submit" onclick="location.href='logout.php'">LOG OUT</button>
 	</div>
@@ -37,66 +32,44 @@ if(isset($POST['submitted']))
 		<button id="map" class="tablinks" onclick="location.href='Map.php'">MAP</button>
 		<button id="login" class="active" onclick="location.href='LoginPage.php'">LOG IN</button>
 	</div>
-
-	<div id="errorMessage" style="display:none;"> Please fill in all fields!
+		</div>
+	<div id=errorMessageHolder>
+	<?php
+	if (isset($_SESSION['message'])) { ?>
+	<div id="errorMessage"><?php
+	  foreach ($_SESSION['message'] as $message) {
+	    echo "<div>" . $message . "</div>";
+	 }
+	  unset($_SESSION['message']); ?>
 	</div>
+	<?php } ?>
+</div>
 		<div class="loginForm">
-			<div> <span class="error"> <?php echo $dao->GetErrorMessage();?></span> </div>
       <div id="middle">
-			<form id=loginCreds method="POST">
-			<!-- <form id=loginCreds method="POST" action="login.php"> -->
+			<form id=loginCreds method="POST" action="login.php">
   		User Name:
-  		<input id="username" type="text" class="User" name="username" placeholder="Username" autocomplete="off" required>
-			<span id='login_username_errorloc' class='error'></span>
+  		<input id="username" type="text" class="User" name="username" placeholder="Username" value="<?php echo isset($_SESSION['presets']['username']) ? $_SESSION['presets']['username'] : ""; ?>" autocomplete="off">
 			<br>
   		Password:
-  		<input id="password" type="password" class="Password" name="password" placeholder="Password..." autocomplete="off" required>
-			<span id='login_password_errorloc' class='error'></span>
+  		<input id="password" type="password" class="Password" name="password" placeholder="Password..." value="<?php echo isset($_SESSION['presets']['password']) ? $_SESSION['presets']['password'] : ""; ?>"autocomplete="off" >
 			<br>
-			<input id="signIn" type = "submit" value="Sign In">
-			<input id="signUp" type = "submit" value="Create Account">
-			<!-- <button id="signIn" onclick="checkSubmit();"> -->
+			<input id="signIn" type ="submit" value="Sign In">
+		</form>
+			<input id="signUp" type ="submit" value="Create Account">
+				</div>
+			</div>
 			<script type='text/javascript'>
 
 			$(document).on('click', "#signUp", function(){
 				window.location.href = 'SignUp.php';
 			});
 
-// function checkSubmit(){
-			$(document).ready(function(){
-			$("#signIn").click(function(){
-				var username = $("#username").val();
-				var password = $("#password").val();
-				var helper = "<?php echo $dao->login()?>";
-				if( username =='' || password ==''){
-						$('input[type="text"],input[type="password"]').css("border","2px solid red");
-						$('input[type="text"],input[type="password"]').css("box-shadow","0 0 3px red");
-			}else {
-
-					if(helper == "Password or username does not match our records"){
-					 document.getElementById('errorMessage').style.display = 'block';
-					}
-					else if(helper == "1"){
-						alert("Login Successful");
-						header("Location:Map.php");
-				}
-			}
-		// };
-		})
-	});
-
-	$(document).on('click', "#logoutButton", function(){
-		alert("You have succesfully logged out!");
-
-	});
-
-
-
+			$(document).on('click', "#logoutButton", function(){
+				alert("You have succesfully logged out!");
+			});
 			</script>
-			</form>
-    </div>
-		</div>
-	</div>
+
+
 	<footer>
 	<p>Property of Mythical Origins</p>
 </footer>
